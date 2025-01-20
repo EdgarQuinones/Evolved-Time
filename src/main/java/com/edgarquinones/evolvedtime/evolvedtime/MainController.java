@@ -65,11 +65,9 @@ public class MainController {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         dateText.setText(getDate());
+        dateText.setStyle("-fx-underline: true ;");
         scores = new ArrayList<>();
         tasksViewer.setSpacing(5);
-
-        assert dateText != null : "fx:id=\"dateText\" was not injected: check your FXML file 'Main.fxml'.";
-        assert tasksViewer != null : "fx:id=\"tasksViewer\" was not injected: check your FXML file 'Main.fxml'.";
 
     }
 
@@ -96,11 +94,6 @@ public class MainController {
 
         // Return the formatted date with the suffix
         return formattedDate + suffix;
-    }
-
-    void addTask(CheckBox checkBox) {
-        System.out.println("Task added");
-        tasksViewer.getChildren().add(checkBox);
     }
 
     public VBox getTasksViewer() {

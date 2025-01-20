@@ -19,5 +19,14 @@ public class MainApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+
+        /*
+          TODO:
+          - Add persistence (log file)
+          - Prevent scaling
+          - Menu Bar
+          - Be able to remove tasks
+          - read time management book
+         */
     }
 }

@@ -5,4 +5,6 @@ module com.edgarquinones.evolvedtime.evolvedtime {
 
     opens com.edgarquinones.evolvedtime.evolvedtime to javafx.fxml;
     exports com.edgarquinones.evolvedtime.evolvedtime;
+
 }
+

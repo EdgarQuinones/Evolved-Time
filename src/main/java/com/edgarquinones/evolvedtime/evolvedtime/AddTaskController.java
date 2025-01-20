@@ -62,8 +62,6 @@ public class AddTaskController {
 
             if (!scores.isEmpty()) {
                 for (int i = 0; i < scores.size(); i++) {
-                    System.out.println("Score Calculated: "+score);
-                    System.out.println("Score {"+i+"}: "+scores.get(i));
 
                     if (score > scores.get(i)) {
                         tasksViewer.getChildren().add(i, checkBox);
@@ -71,8 +69,11 @@ public class AddTaskController {
                         break;
                     }
                 }
-                tasksViewer.getChildren().add(checkBox);
-                scores.add(score);
+                try {
+                    tasksViewer.getChildren().add(tasksViewer.getChildren().size(), checkBox);
+                    scores.add(score);
+                }catch (IllegalArgumentException ignored) {}
+
             } else {
                 tasksViewer.getChildren().add(checkBox);
                 scores.add(score);
