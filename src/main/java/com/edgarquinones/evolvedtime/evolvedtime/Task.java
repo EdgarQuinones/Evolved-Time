@@ -1,6 +1,5 @@
 package com.edgarquinones.evolvedtime.evolvedtime;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 public class Task {

@@ -5,16 +5,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edgarquinones.evolvedtime.evolvedtime.MainController">
-   <children>
-      <Text fx:id="dateText" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monday, January 1st" textAlignment="CENTER" wrappingWidth="617.0">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <VBox fx:id="tasksViewer" layoutX="14.0" layoutY="49.0" prefHeight="363.0" prefWidth="562.0" />
-      <Button layoutX="521.0" layoutY="419.0" mnemonicParsing="false" onAction="#switchToAddTaskScene" prefHeight="35.0" prefWidth="82.0" text="Add Task" />
-      <VBox fx:id="removeTaskBar" layoutX="576.0" layoutY="49.0" prefHeight="363.0" prefWidth="38.0" spacing="16.0" />
-   </children>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="468.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="com.edgarquinones.evolvedtime.evolvedtime.MainController">
+    <children>
+        <Text fx:id="dateText" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monday, January 1st"
+              textAlignment="CENTER" wrappingWidth="617.0">
+            <font>
+                <Font size="30.0"/>
+            </font>
+        </Text>
+        <VBox fx:id="tasksViewer" layoutX="14.0" layoutY="49.0" prefHeight="363.0" prefWidth="562.0"/>
+        <Button layoutX="521.0" layoutY="419.0" mnemonicParsing="false" onAction="#switchToAddTaskScene"
+                prefHeight="35.0" prefWidth="82.0" text="Add Task"/>
+        <VBox fx:id="removeTaskBar" layoutX="576.0" layoutY="49.0" prefHeight="363.0" prefWidth="38.0" spacing="16.0"/>
+    </children>
 </AnchorPane>
