@@ -12,5 +12,5 @@ This is my personal favorite category, as it relates to **how much does the user
 
 ## The mathematical algorithm 
 Each assignment will receive number. The **higher the number, the higher on the list**. If 2 tasks have the same number, the newer task will be under:
-### (d + t) - p
-Its not some special formula, we are just adding up the values for difficulty *d* and time commitment *t*, and then subtracting by personal interest *p*.
+### (d + 1.5t) / p
+Its not some special formula, we are just mutiplying the values for difficulty *d* and time commitment *t*, and then dividing them by personal interest *p*.
