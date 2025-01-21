@@ -119,9 +119,11 @@ public class AddTaskController {
         checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
+                mainController.logBool(checkBox.getText());
+
                 checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
                 checkBox.setDisable(true);
-                mainController.logBool(checkBox.getText());
+
             }
         });
 

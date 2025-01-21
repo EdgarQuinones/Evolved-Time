@@ -167,6 +167,7 @@ public class MainController {
     }
 
     public void logTask(Task task) {
+        System.out.println("Task logged");
         try {
             FileWriter fileWriter = new FileWriter(tasksFileName, true);
             PrintWriter out = new PrintWriter(fileWriter);
@@ -187,6 +188,8 @@ public class MainController {
             Scanner lineScnr = null;
             FileWriter fileWriter = new FileWriter(tasksFileName, false);
             PrintWriter out = new PrintWriter(fileWriter);
+
+            out.println("nameOfTask,score,isChecked");
 
             while (fileScnr.hasNextLine()) {
 
@@ -217,15 +220,19 @@ public class MainController {
         } catch (Exception ignored) {
         }
     }
-
+        
     public void logBool(String taskName) {
         System.out.println("Change Boolean Called");
         try {
+
+            StringBuilder stringBuilder = new StringBuilder();
             File file = new File(tasksFileName);
             Scanner fileScnr = new Scanner(file);
             Scanner lineScnr = null;
-            FileWriter fileWriter = new FileWriter(tasksFileName, false);
+            FileWriter fileWriter = new FileWriter(tasksFileName, true);
             PrintWriter out = new PrintWriter(fileWriter);
+
+            stringBuilder.append("nameOfTask,score,isChecked");
 
             while (fileScnr.hasNextLine()) {
 
@@ -242,11 +249,17 @@ public class MainController {
 
                 System.out.printf("input text: %s, current text: %s", taskName, checkBox.getText());
                 if (taskName.equals(checkBox.getText())) {
-                    out.printf("%s,%.02f,%b\n", task.getCheckBox().getText(), task.getScore(), !task.isChecked());
+                    stringBuilder.append(String.format("%s,%.02f,%b\n", task.getCheckBox().getText(), task.getScore(), task.isChecked()));
+
+
+                } else {
+                    stringBuilder.append(String.format("%s,%.02f,%b\n", task.getCheckBox().getText(), task.getScore(), !task.isChecked()));
 
                 }
 
             }
+
+            out.print(stringBuilder);
 
             assert lineScnr != null;
             lineScnr.close();
