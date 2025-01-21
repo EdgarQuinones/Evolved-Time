@@ -4,19 +4,15 @@
 
 package com.edgarquinones.evolvedtime.evolvedtime;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.function.DoubleToIntFunction;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,12 +21,15 @@ public class MainController {
 
     private Stage addTaskStage;
 
-    @FXML // fx:id="dateText"
-    private Text dateText; // Value injected by FXMLLoader
+    @FXML
+    private VBox removeTaskBar;
 
-    @FXML // fx:id="tasksViewer"
-    private VBox tasksViewer; // Value injected by FXMLLoader
-    private ArrayList<Double> scores;
+    @FXML
+    private Text dateText;
+
+    @FXML
+    private VBox tasksViewer;
+    private ArrayList<Task> tasks;
 
     @FXML
     void switchToAddTaskScene(ActionEvent event) {
@@ -54,6 +53,7 @@ public class MainController {
             addTaskStage = new Stage();  // Store the stage reference
             addTaskStage.setTitle("Add Task");
             addTaskStage.setScene(new Scene(root));
+            addTaskStage.setResizable(false);
             addTaskStage.show();
 
         } catch (Exception e) {
@@ -66,9 +66,9 @@ public class MainController {
     void initialize() {
         dateText.setText(getDate());
         dateText.setStyle("-fx-underline: true ;");
-        scores = new ArrayList<>();
-        tasksViewer.setSpacing(5);
 
+        tasks = new ArrayList<>();
+        tasksViewer.setSpacing(5);
     }
 
     public static String getDate() {
@@ -100,7 +100,11 @@ public class MainController {
         return tasksViewer;
     }
 
-    public ArrayList<Double> getScores() {
-        return scores;
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
+
+    public VBox getRemoveTaskBar() {return removeTaskBar;}
+
+
 }

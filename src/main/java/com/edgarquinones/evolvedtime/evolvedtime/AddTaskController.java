@@ -4,12 +4,12 @@
 
 package com.edgarquinones.evolvedtime.evolvedtime;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddTaskController {
 
@@ -52,34 +53,62 @@ public class AddTaskController {
         checkBox.setText(nameOfTask.getText());
         checkBox.setStyle("-fx-font: 24 arial;");
 
+        Button button = new Button("x");
+
+
         double score = getScore();
+
+        Task task = new Task(checkBox, score, false);
 
         // Add the checkbox directly to the tasksViewer in the already loaded MainController
         if (mainController != null) {
 
             VBox tasksViewer = mainController.getTasksViewer();
-            ArrayList<Double> scores = mainController.getScores();
+            ArrayList<Task> tasks = mainController.getTasks();
+            VBox removeTaskBar = mainController.getRemoveTaskBar();
 
-            if (!scores.isEmpty()) {
-                for (int i = 0; i < scores.size(); i++) {
+            if (!tasks.isEmpty()) {
+                for (int i = 0; i < tasks.size(); i++) {
 
-                    if (score > scores.get(i)) {
+                    if (score > tasks.get(i).getScore()) {
                         tasksViewer.getChildren().add(i, checkBox);
-                        scores.add(i, score);
+                        removeTaskBar.getChildren().add(i, button);
+                        tasks.add(i, task);
                         break;
                     }
                 }
                 try {
-                    tasksViewer.getChildren().add(tasksViewer.getChildren().size(), checkBox);
-                    scores.add(score);
+                    tasksViewer.getChildren().add(checkBox);
+                    removeTaskBar.getChildren().add(button);
+                    tasks.add(task);
                 }catch (IllegalArgumentException ignored) {}
 
             } else {
                 tasksViewer.getChildren().add(checkBox);
-                scores.add(score);
+                tasks.add(task);
+                removeTaskBar.getChildren().add(button);
             }
 
+            checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
+                    checkBox.getStylesheets().addAll(Objects.requireNonNull(getClass().getResource("strikethrough.css")).toExternalForm());
+                    checkBox.setDisable(true);
+                }
+            });
+
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    int indexLocation = removeTaskBar.getChildren().indexOf(button);
+                    tasksViewer.getChildren().remove(indexLocation);
+                    removeTaskBar.getChildren().remove(indexLocation);
+                }
+            });
+
         }
+
+
 
         // Close the current window (optional)
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
