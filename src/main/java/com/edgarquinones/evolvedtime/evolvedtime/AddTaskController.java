@@ -119,7 +119,7 @@ public class AddTaskController {
         checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
-                mainController.logBool(checkBox.getText());
+//                mainController.logBool(checkBox.getText()); TODO: Edit file when true/false
 
                 checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
                 checkBox.setDisable(true);
@@ -135,7 +135,7 @@ public class AddTaskController {
                 int indexLocation = removeTaskBar.getChildren().indexOf(button);
                 CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
 
-                mainController.removeLog(deletedTextBox.getText());
+//                mainController.removeLog(deletedTextBox.getText()); TODO: Remove files on x press
                 tasksViewer.getChildren().remove(deletedTextBox);
                 removeTaskBar.getChildren().remove(indexLocation);
 

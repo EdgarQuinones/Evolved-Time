@@ -220,7 +220,7 @@ public class MainController {
         } catch (Exception ignored) {
         }
     }
-        
+
     public void logBool(String taskName) {
         System.out.println("Change Boolean Called");
         try {
