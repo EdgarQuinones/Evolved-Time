@@ -37,4 +37,9 @@ public class Task {
     public void setChecked(boolean checked) {
         isChecked = checked;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s,%.02f,%b\n", checkBox.getText(), score, isChecked);
+    }
 }

@@ -16,7 +16,7 @@
             </font>
         </Text>
         <VBox fx:id="tasksViewer" layoutX="14.0" layoutY="49.0" prefHeight="363.0" prefWidth="562.0"/>
-        <Button layoutX="521.0" layoutY="419.0" mnemonicParsing="false" onAction="#switchToAddTaskScene"
+        <Button layoutX="521.0" layoutY="419.0" mnemonicParsing="false" onAction="#openAddTaskStage"
                 prefHeight="35.0" prefWidth="82.0" text="Add Task"/>
         <VBox fx:id="removeTaskBar" layoutX="576.0" layoutY="49.0" prefHeight="363.0" prefWidth="38.0" spacing="16.0"/>
     </children>

@@ -72,75 +72,70 @@ public class AddTaskController {
 
         Task task = new Task(checkBox, score, false);
 
-        // Add the checkbox directly to the tasksViewer in the already loaded MainController
         if (mainController != null) {
+            VBox tasksViewer = mainController.getTasksViewer();
+            ArrayList<Task> tasks = mainController.getTasks();
+            VBox removeTaskBar = mainController.getRemoveTaskBar();
+            URL resource = getClass().getResource("strikethrough.css");
 
-            addingTask(task, checkBox, button, score, getClass().getResource("strikethrough.css"));
+            if (!tasks.isEmpty()) {
+                boolean taskAdded = false;
+                for (int i = 0; i < tasks.size(); i++) {
+                    if (score > tasks.get(i).getScore()) {
+                        tasksViewer.getChildren().add(i, checkBox);
+                        removeTaskBar.getChildren().add(i, button);
+                        tasks.add(i, task);
+                        taskAdded = true;
+                        break;
+                    }
+                }
+                if (!taskAdded) {
+                    tasksViewer.getChildren().add(checkBox);
+                    removeTaskBar.getChildren().add(button);
+                    tasks.add(task);
+                }
+            } else {
+                tasksViewer.getChildren().add(checkBox);
+                tasks.add(task);
+                removeTaskBar.getChildren().add(button);
+            }
+
+            checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
+                    System.out.println("Checkbox licked");
+
+                    mainController.logBool(checkBox.getText());
+
+                    checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
+                    checkBox.setDisable(true);
+
+                }
+            });
+
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    System.out.println("Button Pressed");
+
+                    int indexLocation = removeTaskBar.getChildren().indexOf(button);
+                    CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
+
+                    mainController.removeLog(deletedTextBox.getText());
+                    tasksViewer.getChildren().remove(deletedTextBox);
+                    removeTaskBar.getChildren().remove(indexLocation);
+
+                }
+            });
 
             mainController.logTask(task);
-
         }
 
         if (event != null) {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.close();
         }
-
     }
 
-    public void addingTask(Task task, CheckBox checkBox, Button button, double score, URL resource) {
-        VBox tasksViewer = mainController.getTasksViewer();
-        ArrayList<Task> tasks = mainController.getTasks();
-        VBox removeTaskBar = mainController.getRemoveTaskBar();
-
-        if (!tasks.isEmpty()) {
-            for (int i = 0; i < tasks.size(); i++) {
-
-                if (score > tasks.get(i).getScore()) {
-                    tasksViewer.getChildren().add(i, checkBox);
-                    removeTaskBar.getChildren().add(i, button);
-                    tasks.add(i, task);
-                    break;
-                }
-            }
-            try {
-                tasksViewer.getChildren().add(checkBox);
-                removeTaskBar.getChildren().add(button);
-                tasks.add(task);
-            } catch (IllegalArgumentException ignored) {
-            }
-
-        } else {
-            tasksViewer.getChildren().add(checkBox);
-            tasks.add(task);
-            removeTaskBar.getChildren().add(button);
-        }
-
-        checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
-//                mainController.logBool(checkBox.getText()); TODO: Edit file when true/false
-
-                checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
-                checkBox.setDisable(true);
-
-            }
-        });
-
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Task removed");
-
-                int indexLocation = removeTaskBar.getChildren().indexOf(button);
-                CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
-
-//                mainController.removeLog(deletedTextBox.getText()); TODO: Remove files on x press
-                tasksViewer.getChildren().remove(deletedTextBox);
-                removeTaskBar.getChildren().remove(indexLocation);
-
-            }
-        });
-    }
 
 }

@@ -4,6 +4,7 @@
 
 package com.edgarquinones.evolvedtime.evolvedtime;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -29,6 +30,8 @@ import java.util.Scanner;
 public class MainController {
 
     public static String tasksFileName = "tasks.csv";
+    public static ArrayList<Task> csvContents;
+    public static boolean newFile;
 
     private Stage addTaskStage;
 
@@ -68,7 +71,7 @@ public class MainController {
     }
 
     @FXML
-    void switchToAddTaskScene(ActionEvent event) {
+    void openAddTaskStage(ActionEvent event) {
         try {
             // If the "Add Task" window is already open, close it
             if (addTaskStage != null && addTaskStage.isShowing()) {
@@ -103,9 +106,36 @@ public class MainController {
         dateText.setText(getDate());
         dateText.setStyle("-fx-underline: true ;");
 
+        csvContents = new ArrayList<>();
+
         tasks = new ArrayList<>();
-        tasksViewer.setSpacing(5);
         getTasksCSV();
+
+    }
+
+    public void shutdown() {
+        System.out.println("Program Closed");
+        updateCSV();
+    }
+
+    private void updateCSV() {
+
+        try {
+            FileWriter file = new FileWriter(tasksFileName, false);
+            PrintWriter out = new PrintWriter(file);
+
+            out.println("nameOfTask,score,isChecked");
+
+            for (Task task : csvContents) {
+
+                out.printf(task.toString());
+            }
+
+            out.close();
+
+        } catch (IOException e) {
+            System.out.println("You do not have reading/writing permissions");;
+        }
 
     }
 
@@ -115,7 +145,7 @@ public class MainController {
             Scanner fileScnr = new Scanner(file);
             Scanner lineScnr = null;
 
-            fileScnr.nextLine(); // Skip header
+            if (!fileScnr.nextLine().equals("nameOfTask,score,isChecked")) throw new NoSuchElementException();
 
 
             while (fileScnr.hasNextLine()) {
@@ -127,31 +157,26 @@ public class MainController {
                 double score = Double.parseDouble(lineScnr.next());
                 boolean isChecked = Boolean.parseBoolean(lineScnr.next());
 
+                if (isChecked) {
+                    checkBox.setSelected(true);
+                    checkBox.setDisable(true);
+                }
+
                 Task temp = new Task(checkBox, score, isChecked);
 
+                csvContents.add(temp);
                 addFileTask(temp);
+
             }
 
-            assert lineScnr != null;
-            lineScnr.close();
+            if (lineScnr != null ) lineScnr.close();
             fileScnr.close();
 
         } catch (FileNotFoundException | NoSuchElementException e) {
-            try {
-                FileWriter fileWriter = new FileWriter(tasksFileName, true);
-                PrintWriter out = new PrintWriter(fileWriter);
-
-                out.println("nameOfTask,score,isChecked");
-                out.close();
-
-            } catch (IOException ex) {
-                System.out.println("You do not have permission to write/read: " + ex.getMessage());
-            }
+            newFile = true;
         } catch (IOException e) {
             System.out.println("Something went wrong with addTask() method: " + e.getMessage());
         }
-
-
     }
 
     public VBox getTasksViewer() {
@@ -168,110 +193,38 @@ public class MainController {
 
     public void logTask(Task task) {
         System.out.println("Task logged");
-        try {
-            FileWriter fileWriter = new FileWriter(tasksFileName, true);
-            PrintWriter out = new PrintWriter(fileWriter);
-
-            out.printf("%s,%.02f,%b\n", task.getCheckBox().getText(), task.getScore(), task.isChecked());
-            out.close();
-
-        } catch (IOException ex) {
-            System.out.println("You do not have permission to write/read: " + ex.getMessage());
-        }
+        csvContents.add(task);
     }
 
     public void removeLog(String taskName) {
         System.out.println("Remove log called");
-        try {
-            File file = new File(tasksFileName);
-            Scanner fileScnr = new Scanner(file);
-            Scanner lineScnr = null;
-            FileWriter fileWriter = new FileWriter(tasksFileName, false);
-            PrintWriter out = new PrintWriter(fileWriter);
 
-            out.println("nameOfTask,score,isChecked");
-
-            while (fileScnr.hasNextLine()) {
-
-                // TODO: Come up with method to prevent repeat code #1
-                String line = fileScnr.nextLine();
-                lineScnr = new Scanner(line);
-                lineScnr.useDelimiter(",");
-
-                CheckBox checkBox = new CheckBox(lineScnr.next());
-                double score = Double.parseDouble(lineScnr.next());
-                boolean isChecked = Boolean.parseBoolean(lineScnr.next());
-
-                Task task = new Task(checkBox, score, isChecked);
-
-                System.out.printf("input text: %s, current text: %s", taskName, checkBox.getText());
-                if (!taskName.equals(checkBox.getText())) {
-                    out.printf("%s,%.02f,%b\n", task.getCheckBox().getText(), task.getScore(), task.isChecked());
-
-                }
-
+        for (int i = 0; i < csvContents.size(); i++) {
+            String currentText = csvContents.get(i).getCheckBox().getText();
+            if (currentText.equals(taskName)) {
+                csvContents.remove(i);
+                break;
             }
-
-            assert lineScnr != null;
-            lineScnr.close();
-            fileScnr.close();
-            out.close();
-
-        } catch (Exception ignored) {
         }
+
     }
 
     public void logBool(String taskName) {
         System.out.println("Change Boolean Called");
-        try {
 
-            StringBuilder stringBuilder = new StringBuilder();
-            File file = new File(tasksFileName);
-            Scanner fileScnr = new Scanner(file);
-            Scanner lineScnr = null;
-            FileWriter fileWriter = new FileWriter(tasksFileName, true);
-            PrintWriter out = new PrintWriter(fileWriter);
-
-            stringBuilder.append("nameOfTask,score,isChecked");
-
-            while (fileScnr.hasNextLine()) {
-
-                // TODO: Come up with method to prevent repeat code #1
-                String line = fileScnr.nextLine();
-                lineScnr = new Scanner(line);
-                lineScnr.useDelimiter(",");
-
-                CheckBox checkBox = new CheckBox(lineScnr.next());
-                double score = Double.parseDouble(lineScnr.next());
-                boolean isChecked = Boolean.parseBoolean(lineScnr.next());
-
-                Task task = new Task(checkBox, score, isChecked);
-
-                System.out.printf("input text: %s, current text: %s", taskName, checkBox.getText());
-                if (taskName.equals(checkBox.getText())) {
-                    stringBuilder.append(String.format("%s,%.02f,%b\n", task.getCheckBox().getText(), task.getScore(), task.isChecked()));
-
-
-                } else {
-                    stringBuilder.append(String.format("%s,%.02f,%b\n", task.getCheckBox().getText(), task.getScore(), !task.isChecked()));
-
-                }
-
+        for (Task csvContent : csvContents) {
+            String currentText = csvContent.getCheckBox().getText();
+            if (currentText.equals(taskName)) {
+                csvContent.setChecked(true);
+                break;
             }
-
-            out.print(stringBuilder);
-
-            assert lineScnr != null;
-            lineScnr.close();
-            fileScnr.close();
-            out.close();
-
-        } catch (Exception ignored) {
         }
+
     }
 
     @FXML
     void addFileTask(Task task) throws IOException {
+        System.out.println("Task added to file");
 
         if (task.getCheckBox().getText().isEmpty()) return;
 
