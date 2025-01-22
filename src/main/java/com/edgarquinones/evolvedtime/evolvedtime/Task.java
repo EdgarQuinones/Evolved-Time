@@ -40,6 +40,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("%s,%.02f,%b\n", checkBox.getText(), score, isChecked);
+        return String.format("%s,%.02f,%b\n", checkBox.getText(), score, checkBox.isSelected());
     }
 }

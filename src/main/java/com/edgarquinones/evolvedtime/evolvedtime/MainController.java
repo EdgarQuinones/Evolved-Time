@@ -4,7 +4,6 @@
 
 package com.edgarquinones.evolvedtime.evolvedtime;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -20,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -134,7 +134,7 @@ public class MainController {
             out.close();
 
         } catch (IOException e) {
-            System.out.println("You do not have reading/writing permissions");;
+            System.out.println("You do not have reading/writing permissions");
         }
 
     }
@@ -169,7 +169,7 @@ public class MainController {
 
             }
 
-            if (lineScnr != null ) lineScnr.close();
+            if (lineScnr != null) lineScnr.close();
             fileScnr.close();
 
         } catch (FileNotFoundException | NoSuchElementException e) {
@@ -226,6 +226,8 @@ public class MainController {
     void addFileTask(Task task) throws IOException {
         System.out.println("Task added to file");
 
+        URL resource = getClass().getResource("strikethrough.css");
+
         if (task.getCheckBox().getText().isEmpty()) return;
 
         CheckBox checkBox = task.getCheckBox();
@@ -262,17 +264,27 @@ public class MainController {
         checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
-                checkBox.getStylesheets().addAll(Objects.requireNonNull(getClass().getResource("strikethrough.css")).toExternalForm());
+                System.out.println("Checkbox licked");
+
+                checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
                 checkBox.setDisable(true);
+
+
             }
         });
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                System.out.println("Button Pressed");
+
                 int indexLocation = removeTaskBar.getChildren().indexOf(button);
-                tasksViewer.getChildren().remove(indexLocation);
+                CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
+
+                removeLog(deletedTextBox.getText());
+                tasksViewer.getChildren().remove(deletedTextBox);
                 removeTaskBar.getChildren().remove(indexLocation);
+
             }
         });
 
