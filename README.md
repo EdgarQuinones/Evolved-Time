@@ -42,7 +42,7 @@ enjoyable ones**, thus it is up to the users due diligence to not overload thems
 day. This will come with some trial and error, but they will begin to understand how fun ending the day with desert
 really is.
 
-## The mathematical algorithm
+## The Algorithm
 
 Each assignment will receive a "score". The higher the number, the higher on the list. If 2 tasks have the same number, the older task will be preferred:
 
