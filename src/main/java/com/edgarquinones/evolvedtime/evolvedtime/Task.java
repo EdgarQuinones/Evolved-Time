@@ -5,6 +5,7 @@ import javafx.scene.control.CheckBox;
 public class Task {
 
     private final CheckBox checkBox;
+    private Score scoreStats;
     private final double score;
     private boolean isChecked;
 
@@ -33,5 +34,13 @@ public class Task {
 
     public boolean isChecked() {
         return isChecked;
+    }
+
+    public void setScoreStats(Score scoreStats) {
+        this.scoreStats = scoreStats;
+    }
+
+    public Score getScoreStats() {
+        return scoreStats;
     }
 }

@@ -14,17 +14,17 @@
             </font>
         </Text>
         <TextField fx:id="nameOfTask" layoutX="109.0" layoutY="62.0" prefHeight="33.0" prefWidth="389.0"/>
-        <Slider fx:id="difficulty" blockIncrement="1.0" layoutX="113.0" layoutY="130.0" majorTickUnit="1.0" max="10.0"
+        <Slider fx:id="difficultySlider" blockIncrement="1.0" layoutX="113.0" layoutY="130.0" majorTickUnit="1.0" max="10.0"
                 min="1.0" minorTickCount="0" prefHeight="40.0" prefWidth="389.0" showTickLabels="true"
                 showTickMarks="true" snapToTicks="true" value="5.0"/>
         <Text layoutX="29.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty"/>
         <Text layoutX="16.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Task"/>
-        <Slider fx:id="timeCommitment" blockIncrement="1.0" layoutX="113.0" layoutY="180.0" majorTickUnit="1.0"
+        <Slider fx:id="timeCommitmentSlider" blockIncrement="1.0" layoutX="113.0" layoutY="180.0" majorTickUnit="1.0"
                 max="10.0" min="1.0" minorTickCount="0" prefHeight="40.0" prefWidth="389.0" showTickLabels="true"
                 showTickMarks="true" snapToTicks="true" value="5.0"/>
         <Text layoutX="11.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Commitment"
               textAlignment="CENTER" wrappingWidth="81.666015625"/>
-        <Slider fx:id="personalInterest" blockIncrement="1.0" layoutX="113.0" layoutY="230.0" majorTickUnit="1.0"
+        <Slider fx:id="personalInterestSlider" blockIncrement="1.0" layoutX="113.0" layoutY="230.0" majorTickUnit="1.0"
                 max="10.0" min="1.0" minorTickCount="0" prefHeight="40.0" prefWidth="389.0" showTickLabels="true"
                 showTickMarks="true" snapToTicks="true" value="5.0"/>
         <Text layoutX="11.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Interest"

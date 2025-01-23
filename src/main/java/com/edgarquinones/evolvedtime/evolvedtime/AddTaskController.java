@@ -26,16 +26,16 @@ public class AddTaskController {
     private Button closeWindowButton;
 
     @FXML
-    private Slider difficulty;
+    private Slider difficultySlider;
 
     @FXML
     private TextField nameOfTask;
 
     @FXML
-    private Slider personalInterest;
+    private Slider personalInterestSlider;
 
     @FXML
-    private Slider timeCommitment;
+    private Slider timeCommitmentSlider;
 
     // This method allows you to pass the mainController to this controller
     public void setMainController(MainController controller) {
@@ -43,8 +43,8 @@ public class AddTaskController {
     }
 
 
-    public double getScore() {
-        return (difficulty.getValue() * (1.5 * timeCommitment.getValue())) / personalInterest.getValue();
+    public double calcScore() {
+        return (difficultySlider.getValue() * (1.5 * timeCommitmentSlider.getValue())) / personalInterestSlider.getValue();
     }
 
 
@@ -67,9 +67,10 @@ public class AddTaskController {
 
         Button button = new Button("x");
 
-        double score = getScore();
+        double score = calcScore();
 
         Task task = new Task(checkBox, score, false);
+        task.setScoreStats(new Score(personalInterestSlider.getValue(), timeCommitmentSlider.getValue(), difficultySlider.getValue()));
 
         if (mainController != null) {
             VBox tasksViewer = mainController.getTasksViewer();

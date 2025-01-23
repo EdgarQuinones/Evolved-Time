@@ -12,7 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,9 +32,6 @@ public class MainController {
     public static boolean newFile;
 
     private Stage addTaskStage;
-
-    @FXML
-    private MenuBar menuBar;
 
     @FXML
     private VBox removeTaskBar;
@@ -144,7 +141,6 @@ public class MainController {
         try {
             File file = new File(tasksFileName);
             Scanner fileScnr = new Scanner(file);
-            Scanner lineScnr = null;
 
             if (!fileScnr.nextLine().equals("nameOfTask,score,isChecked")) throw new NoSuchElementException();
 
@@ -171,7 +167,6 @@ public class MainController {
 
             }
 
-            if (lineScnr != null) lineScnr.close();
             fileScnr.close();
 
         } catch (FileNotFoundException | NoSuchElementException e) {
@@ -288,7 +283,7 @@ public class MainController {
     }
 
     @FXML
-    void openGithub(ActionEvent event) {
+    void openGithub() {
         try {
             Desktop.getDesktop().browse(new URL("https://github.com/EdgarQuinones/Evolved-Time").toURI());
         } catch (IOException | URISyntaxException e) {
@@ -297,12 +292,62 @@ public class MainController {
     }
 
     @FXML
-    void reportAnIssue(ActionEvent event) {
+    void reportAnIssue() {
         try {
             Desktop.getDesktop().browse(new URL("https://github.com/EdgarQuinones/Evolved-Time/issues").toURI());
         } catch (IOException | URISyntaxException e) {
             System.out.println("Error reaching website");
         }
+    }
+
+    @FXML
+    void clearList() {
+        removeTaskBar.getChildren().clear();
+        tasksViewer.getChildren().clear();
+        tasks.clear();
+        csvContents.clear();
+    }
+
+    // TODO: sort list
+    @FXML
+    void sortList(ActionEvent event) {
+        String sortOption = ((RadioMenuItem)event.getSource()).getText();
+
+        // Look at i index's <stat>, if bigger, go up
+
+        switch (sortOption) {
+            case "Personal Interest" :
+                System.out.println("personal button pressed");
+
+                for (int i = 0; i < tasks.size(); i++) {
+
+                    double currentPersonalInterest = tasks.get(i).getScoreStats().getPersonalInterest();
+                    for (int j = 0; i < tasks.size(); j++) {
+
+                        double tempPersonalInterest = tasks.get(j).getScoreStats().getPersonalInterest();
+
+                        if (currentPersonalInterest > tempPersonalInterest ) {
+                            return;
+                            // swap VBOX of buttons == removeTaskBar
+                            // swap VBOX of tasks == tasksViewer
+                            // swap tasks array += tasks
+                        }
+
+                    }
+
+                }
+
+            break;
+            case "Difficulty" :
+                System.out.println("Diff button pressed");
+                break;
+            case "Time Commitment" :
+                System.out.println("Time button pressed");
+                break;
+            default :
+                System.out.println("Default button pressed");
+        }
+
     }
 
 }

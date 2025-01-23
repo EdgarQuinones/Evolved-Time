@@ -5,43 +5,42 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edgarquinones.evolvedtime.evolvedtime.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="617.0" style="-fx-effect: null; fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edgarquinones.evolvedtime.evolvedtime.MainController">
     <children>
         <Text fx:id="dateText" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monday, January 1st" textAlignment="CENTER" underline="true" wrappingWidth="617.0">
             <font>
                 <Font size="30.0" />
             </font>
         </Text>
-        <VBox fx:id="tasksViewer" layoutX="14.0" layoutY="93.0" prefHeight="319.0" prefWidth="562.0" />
         <Button layoutX="521.0" layoutY="419.0" mnemonicParsing="false" onAction="#openAddTaskStage" prefHeight="35.0" prefWidth="82.0" text="Add Task" />
-        <VBox fx:id="removeTaskBar" layoutX="576.0" layoutY="93.0" prefHeight="319.0" prefWidth="38.0" spacing="10.0" />
       <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="617.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Clear List" />
+              <MenuItem mnemonicParsing="false" onAction="#clearList" text="Clear List" />
                   <MenuItem mnemonicParsing="false" onAction="#shutdown" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Add Task" />
-                  <Menu mnemonicParsing="false" text="Sort Tasks">
+              <MenuItem mnemonicParsing="false" onAction="#openAddTaskStage" text="Add Task" />
+                  <Menu mnemonicParsing="false" text="Sort Tasks (TBD)" visible="false">
                     <items>
-                        <RadioMenuItem mnemonicParsing="false" text="Default">
+                        <RadioMenuItem mnemonicParsing="false" onAction="#sortList" selected="true" text="Default">
                            <toggleGroup>
                               <ToggleGroup fx:id="SortTasks" />
                            </toggleGroup>
                         </RadioMenuItem>
-                        <RadioMenuItem mnemonicParsing="false" text="Difficulty" toggleGroup="$SortTasks" />
-                        <RadioMenuItem mnemonicParsing="false" text="Time Commitment" toggleGroup="$SortTasks" />
-                        <RadioMenuItem mnemonicParsing="false" text="Personal Interest" toggleGroup="$SortTasks" />
+                        <RadioMenuItem mnemonicParsing="false" onAction="#sortList" text="Difficulty" toggleGroup="$SortTasks" />
+                        <RadioMenuItem mnemonicParsing="false" onAction="#sortList" text="Time Commitment" toggleGroup="$SortTasks" />
+                        <RadioMenuItem mnemonicParsing="false" onAction="#sortList" text="Personal Interest" toggleGroup="$SortTasks" />
                     </items>
                   </Menu>
             </items>
@@ -54,5 +53,15 @@
           </Menu>
         </menus>
       </MenuBar>
+      <ScrollPane layoutX="14.0" layoutY="93.0" prefHeight="319.0" prefWidth="539.0">
+         <content>
+              <VBox fx:id="tasksViewer" prefHeight="316.0" prefWidth="537.0" style="-fx-effect: null; -fx-background-color: transparent; -fx-border-width: 0; -fx-border-color: transparent;" />
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="554.0" layoutY="93.0" prefHeight="319.0" prefWidth="56.0">
+         <content>
+              <VBox fx:id="removeTaskBar" alignment="TOP_CENTER" prefHeight="317.0" prefWidth="54.0" spacing="10.0" style="-fx-effect: null;" />
+         </content>
+      </ScrollPane>
     </children>
 </AnchorPane>

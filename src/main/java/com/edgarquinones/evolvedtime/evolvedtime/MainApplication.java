@@ -1,7 +1,6 @@
 package com.edgarquinones.evolvedtime.evolvedtime;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -18,6 +17,10 @@ public class MainApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("Main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         MainController mainController = fxmlLoader.getController();
+
+        String css = this.getClass().getResource("mainApp.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
         stage.setTitle("Tasks");
         stage.setScene(scene);
         stage.setOnHidden(e -> mainController.shutdown());
