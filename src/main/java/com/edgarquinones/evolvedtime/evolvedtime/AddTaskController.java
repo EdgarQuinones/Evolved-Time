@@ -128,7 +128,7 @@ public class AddTaskController {
                 for (int i = 0; i < tasks.size(); i++) {
                     if (score > tasks.get(i).getScore()) {
                         try {
-                            System.out.println("Size of tasks: " + tasksViewer.getChildren().size());
+//                            System.out.println("Size of tasks: " + tasksViewer.getChildren().size());
                             tasksViewer.getChildren().add(i, flowPane);
                             removeTaskBar.add(i, button);
                             tasks.add(i, task);
@@ -155,7 +155,7 @@ public class AddTaskController {
             }
 
             checkBox.selectedProperty().addListener((observableValue, oldValue, isClicked) -> {
-                System.out.println("Checkbox licked");
+//                System.out.println("Checkbox licked");
 
                 mainController.logBool(checkBox.getText());
 
@@ -165,7 +165,7 @@ public class AddTaskController {
             });
 
             button.setOnAction(actionEvent -> {
-                System.out.println("Button Pressed");
+//                System.out.println("Button Pressed");
 
                 int indexLocation = removeTaskBar.indexOf(button);
                 CheckBox deletedTextBox = (CheckBox) ((FlowPane) tasksViewer.getChildren().get(indexLocation)).getChildren().get(0);

@@ -162,7 +162,7 @@ public class MainController {
      * and closes the program.
      */
     public void shutdown() {
-        System.out.println("Program Closed");
+//        System.out.println("Program Closed");
         updateCSV();
         Platform.exit();
     }
@@ -257,7 +257,7 @@ public class MainController {
      * @param task Task user just added
      */
     public void logTask(Task task) {
-        System.out.println("Task logged");
+//        System.out.println("Task logged");
         csvContents.add(task);
     }
 
@@ -268,7 +268,7 @@ public class MainController {
      * will be removed from the csv file
      */
     public void removeLog(String taskName) {
-        System.out.println("Remove log called");
+//        System.out.println("Remove log called");
 
         for (int i = 0; i < csvContents.size(); i++) {
             String currentText = csvContents.get(i).getCheckBox().getText();
@@ -287,7 +287,7 @@ public class MainController {
      * will be added from the csv file
      */
     public void logBool(String taskName) {
-        System.out.println("Change Boolean Called");
+//        System.out.println("Change Boolean Called");
 
         for (Task csvContent : csvContents) {
             String currentText = csvContent.getCheckBox().getText();
@@ -307,7 +307,7 @@ public class MainController {
      */
     @FXML
     void addFileTask(Task task) {
-        System.out.println("Task added to file");
+//        System.out.println("Task added to file");
 
         URL resource = getClass().getResource("strikethrough.css");
 
