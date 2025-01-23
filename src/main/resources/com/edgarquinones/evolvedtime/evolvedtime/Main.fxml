@@ -32,17 +32,14 @@
                         <MenuItem mnemonicParsing="false" onAction="#openAddTaskStage" text="Add Task"/>
                         <Menu mnemonicParsing="false" text="Sort Tasks (TBD)" visible="false">
                             <items>
-                                <RadioMenuItem mnemonicParsing="false" onAction="#sortList" selected="true"
-                                               text="Default">
+                                <RadioMenuItem mnemonicParsing="false" selected="true" text="Default">
                                     <toggleGroup>
                                         <ToggleGroup fx:id="SortTasks"/>
                                     </toggleGroup>
                                 </RadioMenuItem>
-                                <RadioMenuItem mnemonicParsing="false" onAction="#sortList" text="Difficulty"
-                                               toggleGroup="$SortTasks"/>
-                                <RadioMenuItem mnemonicParsing="false" onAction="#sortList" text="Time Commitment"
-                                               toggleGroup="$SortTasks"/>
-                                <RadioMenuItem mnemonicParsing="false" onAction="#sortList" text="Personal Interest"
+                                <RadioMenuItem mnemonicParsing="false" text="Difficulty" toggleGroup="$SortTasks"/>
+                                <RadioMenuItem mnemonicParsing="false" text="Time Commitment" toggleGroup="$SortTasks"/>
+                                <RadioMenuItem mnemonicParsing="false" text="Personal Interest"
                                                toggleGroup="$SortTasks"/>
                             </items>
                         </Menu>
@@ -50,15 +47,15 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#reportAnIssue" text="Report an issue"/>
-                        <MenuItem mnemonicParsing="false" onAction="#openGithub" text="Github"/>
+                        <MenuItem mnemonicParsing="false" onAction="#reportAnIssue" text="Report a bug"/>
+                        <MenuItem mnemonicParsing="false" onAction="#openGithub" text="About Evolved Time"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <ScrollPane layoutX="25.0" layoutY="77.0" prefHeight="325.0" prefWidth="568.0">
+        <ScrollPane layoutX="25.0" layoutY="77.0" prefHeight="325.0" prefWidth="579.0">
             <content>
-                <VBox fx:id="tasksViewer" prefHeight="323.0" prefWidth="537.0"
+                <VBox fx:id="tasksViewer" prefHeight="323.0" prefWidth="577.0"
                       style="-fx-effect: null; -fx-background-color: transparent; -fx-border-width: 0; -fx-border-color: transparent;"/>
             </content>
         </ScrollPane>

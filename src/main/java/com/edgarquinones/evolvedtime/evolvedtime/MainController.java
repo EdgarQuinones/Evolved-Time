@@ -12,7 +12,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.awt.*;
 import java.io.*;
 import java.net.URISyntaxException;
@@ -24,11 +23,19 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 
-@SuppressWarnings("CommentedOutCode") // For sort list method
+/**
+ * Handles the main window of the project.
+ * This includes:
+ *  checkbox
+ *  buttons
+ *  etc...
+ */
 public class MainController {
 
+    public static final String GITHUB_URL = "https://github.com/EdgarQuinones/Evolved-Time";
+
     public static final int FLOWPANE_HEIGHT = 0;
-    public static final int CHECKBOX_WIDTH = 515;
+    public static final int CHECKBOX_WIDTH = 550;
 
 
     public static String tasksFileName = "tasks.csv";
@@ -47,6 +54,11 @@ public class MainController {
     private VBox tasksViewer;
     private ArrayList<Task> tasks;
 
+    /**
+     * Sets the data text label as the current
+     * day of the week.
+     * @return day of the week, month, day of the month
+     */
     public static String getDate() {
         // Sets up the date format
         LocalDate today = LocalDate.now();
@@ -72,6 +84,11 @@ public class MainController {
         return formattedDate + suffix;
     }
 
+    /**
+     * Gets the Task based on the user input
+     * @param line Name of the task
+     * @return The task object
+     */
     private static Task getTask(String line) {
         String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
@@ -90,6 +107,26 @@ public class MainController {
         return temp;
     }
 
+    /**
+     * Called when the main window is first opened,
+     * used mostly for initializing some objects
+     */
+    @FXML
+    void initialize() {
+        dateText.setText(getDate());
+
+        csvContents = new ArrayList<>();
+        removeTaskBar = new ArrayList<>();
+        tasks = new ArrayList<>();
+        getTasksCSV();
+
+    }
+
+    /**
+     * Opens the window that handles adding a task.
+     * This window has the user enter the task name,
+     * as well as all the criteria involved in each task.
+     */
     @FXML
     void openAddTaskStage() {
         try {
@@ -120,24 +157,21 @@ public class MainController {
         }
     }
 
-    @FXML
-        // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
-        dateText.setText(getDate());
-
-        csvContents = new ArrayList<>();
-        removeTaskBar = new ArrayList<>();
-        tasks = new ArrayList<>();
-        getTasksCSV();
-
-    }
-
+    /**
+     * Writes the csv file required for persistence,
+     * and closes the program.
+     */
     public void shutdown() {
         System.out.println("Program Closed");
         updateCSV();
         Platform.exit();
     }
 
+    /**
+     * Handles the writing of the tasks into a csv file.
+     * An arraylist is used to make changes without
+     * read/writing to the file more than once.
+     */
     private void updateCSV() {
 
         try {
@@ -159,6 +193,11 @@ public class MainController {
 
     }
 
+    /**
+     * When the program is first run,
+     * this method is run and reads the csv file
+     * and adds them to the window.
+     */
     public void getTasksCSV() {
         try {
             File file = new File(tasksFileName);
@@ -183,28 +222,51 @@ public class MainController {
 
         } catch (FileNotFoundException | NoSuchElementException e) {
             newFile = true;
-        } catch (IOException e) {
-            System.out.println("Something went wrong with addTask() method: " + e.getMessage());
         }
     }
 
+    /**
+     * Gets the VBox that holds all the tasks,
+     * and is used to add/remove tasks
+     * @return The VBox containing all the tasks
+     */
     public VBox getTasksViewer() {
         return tasksViewer;
     }
 
+    /**
+     * Returns the arraylist containing all the tasks
+     * @return Arraylist of tasks
+     */
     public ArrayList<Task> getTasks() {
         return tasks;
     }
 
+    /**
+     * Returns the arraylist of the buttons in the program.
+     * These buttons are used to remove the checkboxes/tasks
+     * @return Arraylist of buttons
+     */
     public ArrayList<Button> getRemoveTaskBar() {
         return removeTaskBar;
     }
 
+    /**
+     * Called everytime addTask or addFileTask is called
+     * to log the task into the csv file.
+     * @param task Task user just added
+     */
     public void logTask(Task task) {
         System.out.println("Task logged");
         csvContents.add(task);
     }
 
+    /**
+     * Called when a user removes a task
+     * @param taskName Name of the task that is used
+     * when removing them from the arraylist that
+     * will be removed from the csv file
+     */
     public void removeLog(String taskName) {
         System.out.println("Remove log called");
 
@@ -218,6 +280,12 @@ public class MainController {
 
     }
 
+    /**
+     * Called when a user adds a task
+     * @param taskName Name of the task that is used
+     * when add them from the arraylist that
+     * will be added from the csv file
+     */
     public void logBool(String taskName) {
         System.out.println("Change Boolean Called");
 
@@ -231,8 +299,14 @@ public class MainController {
 
     }
 
+    /**
+     * A user tasks is added to the window, this
+     * involves setting the configuration of the components,
+     * and then logging it into the csv
+     * @param task The task being added
+     */
     @FXML
-    void addFileTask(Task task) throws IOException {
+    void addFileTask(Task task) {
         System.out.println("Task added to file");
 
         URL resource = getClass().getResource("strikethrough.css");
@@ -242,7 +316,7 @@ public class MainController {
         CheckBox checkBox = task.getCheckBox();
         checkBox.setStyle("-fx-font: 24 arial;");
         checkBox.setWrapText(true);
-        checkBox.setPrefWidth(515);
+        checkBox.setPrefWidth(CHECKBOX_WIDTH);
 
         Button button = new Button("x");
 
@@ -303,24 +377,35 @@ public class MainController {
 
     }
 
+    /**
+     * Opens up the projects GitHub on the user's browser
+     */
     @FXML
     void openGithub() {
         try {
-            Desktop.getDesktop().browse(new URL("https://github.com/EdgarQuinones/Evolved-Time").toURI());
+            Desktop.getDesktop().browse(new URL(GITHUB_URL).toURI());
         } catch (IOException | URISyntaxException e) {
             System.out.println("Error reaching website");
         }
     }
 
+    /**
+     * Opens up the users browser and allows them to
+     * report any bugs they may find on the program
+     */
     @FXML
     void reportAnIssue() {
         try {
-            Desktop.getDesktop().browse(new URL("https://github.com/EdgarQuinones/Evolved-Time/issues").toURI());
+            Desktop.getDesktop().browse(new URL(GITHUB_URL+"/issues").toURI());
         } catch (IOException | URISyntaxException e) {
             System.out.println("Error reaching website");
         }
     }
 
+    /**
+     * Removes all the tasks currently
+     * on the program
+     */
     @FXML
     void clearList() {
         removeTaskBar.clear();
@@ -328,47 +413,5 @@ public class MainController {
         tasks.clear();
         csvContents.clear();
     }
-
-    // TODO: sort list
-//    @FXML
-//    void sortList(ActionEvent event) {
-//        String sortOption = ((RadioMenuItem)event.getSource()).getText();
-//
-//        // Look at i index's <stat>, if bigger, go up
-//
-//        switch (sortOption) {
-//            case "Personal Interest" :
-//                System.out.println("personal button pressed");
-//
-//                for (int i = 0; i < tasks.size(); i++) {
-//
-//                    double currentPersonalInterest = tasks.get(i).getScoreStats().getPersonalInterest();
-//                    for (int j = 0; i < tasks.size(); j++) {
-//
-//                        double tempPersonalInterest = tasks.get(j).getScoreStats().getPersonalInterest();
-//
-//                        if (currentPersonalInterest > tempPersonalInterest ) {
-//                            return;
-//                            // swap VBOX of buttons == removeTaskBar
-//                            // swap VBOX of tasks == tasksViewer
-//                            // swap tasks array += tasks
-//                        }
-//
-//                    }
-//
-//                }
-//
-//            break;
-//            case "Difficulty" :
-//                System.out.println("Diff button pressed");
-//                break;
-//            case "Time Commitment" :
-//                System.out.println("Time button pressed");
-//                break;
-//            default :
-//                System.out.println("Default button pressed");
-//        }
-//
-//    }
 
 }

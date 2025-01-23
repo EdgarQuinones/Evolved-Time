@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="504.0" prefWidth="813.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="com.edgarquinones.evolvedtime.evolvedtime.AlgorithmController">
+    <children>
+        <Button fx:id="returnButton" layoutX="29.0" layoutY="447.0" mnemonicParsing="false" onAction="#closeWindow"
+                text="Return">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Button>
+        <Text layoutX="241.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How does the algorithm work?"
+              textAlignment="CENTER" underline="true" wrappingWidth="335.36328125">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Text>
+        <Text layoutX="345.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(d * 1.5t) / p">
+            <font>
+                <Font name="System Italic" size="24.0"/>
+            </font>
+        </Text>
+        <Text layoutX="29.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Each assignment will receive a &quot;score&quot; in a range of 1.5 - 150. The higher the number, the higher on the list. If 2 tasks have the same number, the older task will be preferred:"
+              wrappingWidth="759.72265625">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Text>
+        <Text layoutX="29.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Difficulty 'd' is multiplied by time commitment 't', which is already multipled by 1.5, and all of that is divded by personal interest 'p'."
+              wrappingWidth="759.72265625">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Text>
+        <Text layoutX="29.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="The goal with this formula is to have the most boring/busiest tasks completed first, and the most enjoyable tasks completed at the end of the day. This is what has worked best for me and I hope it can help other people be more productive."
+              wrappingWidth="759.72265625">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Text>
+        <Button layoutX="686.0" layoutY="447.0" mnemonicParsing="false" onAction="#openGithub" text="Github">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

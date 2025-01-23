@@ -1,3 +1,5 @@
 nameOfTask,score,isChecked
-"gegge",7.50,false
-"ege",7.50,false
+"Organize workspace",4.00,true
+"Plan meals for the day",2.00,false
+"Water plants",0.43,false
+"Read",0.86,false

@@ -1,28 +1,33 @@
-/**
- * Sample Skeleton for 'AddTask.fxml' Controller Class
- */
-
 package com.edgarquinones.evolvedtime.evolvedtime;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Handles the add task window, which allows
+ * the user to make tasks with specified criteria
+ */
 public class AddTaskController {
 
     private MainController mainController;
+
+    private Stage algorithmStage;
 
     @FXML
     private Button closeWindowButton;
@@ -39,23 +44,54 @@ public class AddTaskController {
     @FXML
     private Slider timeCommitmentSlider;
 
-    // This method allows you to pass the mainController to this controller
+    @FXML
+    private Button algorithmExplainedButton;
+
+    /**
+     * Called when the add task window is first opened,
+     * used mostly for initializing some objects
+     */
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
+    void initialize() {
+
+        algorithmExplainedButton.setShape(new Circle(1.5));
+
+    }
+
+    /**
+     * Passes the main window controller to the add task controller, which
+     * will be used for multiple methods
+     * @param controller Main window controller
+     */
     public void setMainController(MainController controller) {
         this.mainController = controller;
     }
 
-
+    /**
+     * Calculates the score for the task
+     * @return The task score
+     */
     public double calcScore() {
         return (difficultySlider.getValue() * (1.5 * timeCommitmentSlider.getValue())) / personalInterestSlider.getValue();
     }
 
-
+    /**
+     * Closes the window, whether after making a task,
+     * or to cancel adding the task
+     */
     @FXML
     void closeWindow() {
         Stage stage = (Stage) closeWindowButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * A user tasks is added to the window, this
+     * involves setting the configuration of the components,
+     * and then logging it into the csv
+     * @param event Event called by button being pressed
+     */
     @FXML
     void addTask(ActionEvent event) {
 
@@ -132,7 +168,7 @@ public class AddTaskController {
                 System.out.println("Button Pressed");
 
                 int indexLocation = removeTaskBar.indexOf(button);
-                CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
+                CheckBox deletedTextBox = (CheckBox) ((FlowPane) tasksViewer.getChildren().get(indexLocation)).getChildren().get(0);
 
                 mainController.removeLog(deletedTextBox.getText());
                 tasksViewer.getChildren().remove(indexLocation);
@@ -149,5 +185,31 @@ public class AddTaskController {
         }
     }
 
+    /**
+     * Window that explains how the algorithm for the score works
+     */
+    @FXML
+    void algorithmExplained() {
+        try {
+            // If the "Add Task" window is already open, close it
+            if (algorithmStage != null && algorithmStage.isShowing()) {
+                algorithmStage.close();
+            }
+
+            // Load the Add Task scene
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("algorithm.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // Create and show the new Add Task window
+            algorithmStage = new Stage();  // Store the stage reference
+            algorithmStage.setTitle("How does the algorithm work?");
+            algorithmStage.setScene(new Scene(root));
+            algorithmStage.setResizable(false);
+            algorithmStage.show();
+
+        } catch (Exception e) {
+            System.out.println("Can't load new window: " + e.getMessage());
+        }
+    }
 
 }
