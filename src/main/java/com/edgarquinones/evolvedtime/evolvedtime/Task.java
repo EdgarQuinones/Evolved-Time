@@ -4,8 +4,8 @@ import javafx.scene.control.CheckBox;
 
 public class Task {
 
-    private CheckBox checkBox;
-    private double score;
+    private final CheckBox checkBox;
+    private final double score;
     private boolean isChecked;
 
     public Task(CheckBox checkBox, double score, boolean isChecked) {
@@ -18,20 +18,8 @@ public class Task {
         return checkBox;
     }
 
-    public void setCheckBox(CheckBox checkBox) {
-        this.checkBox = checkBox;
-    }
-
     public double getScore() {
         return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public boolean isChecked() {
-        return isChecked;
     }
 
     public void setChecked(boolean checked) {
@@ -40,6 +28,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("%s,%.02f,%b\n", checkBox.getText(), score, checkBox.isSelected());
+        return String.format("\"%s\",%.02f,%b\n", checkBox.getText(), score, checkBox.isSelected());
+    }
+
+    public boolean isChecked() {
+        return isChecked;
     }
 }

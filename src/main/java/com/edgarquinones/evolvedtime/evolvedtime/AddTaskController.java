@@ -4,10 +4,7 @@
 
 package com.edgarquinones.evolvedtime.evolvedtime;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -52,7 +49,7 @@ public class AddTaskController {
 
 
     @FXML
-    void closeWindow(ActionEvent event) {
+    void closeWindow() {
         Stage stage = (Stage) closeWindowButton.getScene().getWindow();
         stage.close();
     }
@@ -65,6 +62,8 @@ public class AddTaskController {
         CheckBox checkBox = new CheckBox();
         checkBox.setText(nameOfTask.getText());
         checkBox.setStyle("-fx-font: 24 arial;");
+        checkBox.setWrapText(true);
+
 
         Button button = new Button("x");
 
@@ -82,11 +81,20 @@ public class AddTaskController {
                 boolean taskAdded = false;
                 for (int i = 0; i < tasks.size(); i++) {
                     if (score > tasks.get(i).getScore()) {
-                        tasksViewer.getChildren().add(i, checkBox);
-                        removeTaskBar.getChildren().add(i, button);
-                        tasks.add(i, task);
-                        taskAdded = true;
-                        break;
+                        try {
+                            System.out.println("Size of tasks: " + tasksViewer.getChildren().size());
+                            tasksViewer.getChildren().add(i, checkBox);
+                            removeTaskBar.getChildren().add(i, button);
+                            tasks.add(i, task);
+                            taskAdded = true;
+                            break;
+                        } catch (IndexOutOfBoundsException e) {
+                            tasksViewer.getChildren().add(checkBox);
+                            tasks.add(task);
+                            removeTaskBar.getChildren().add(button);
+                            taskAdded = true;
+                            break;
+                        }
                     }
                 }
                 if (!taskAdded) {
@@ -100,32 +108,26 @@ public class AddTaskController {
                 removeTaskBar.getChildren().add(button);
             }
 
-            checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
-                    System.out.println("Checkbox licked");
+            checkBox.selectedProperty().addListener((observableValue, oldValue, isClicked) -> {
+                System.out.println("Checkbox licked");
 
-                    mainController.logBool(checkBox.getText());
+                mainController.logBool(checkBox.getText());
 
-                    checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
-                    checkBox.setDisable(true);
+                checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
+                checkBox.setDisable(true);
 
-                }
             });
 
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    System.out.println("Button Pressed");
+            button.setOnAction(actionEvent -> {
+                System.out.println("Button Pressed");
 
-                    int indexLocation = removeTaskBar.getChildren().indexOf(button);
-                    CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
+                int indexLocation = removeTaskBar.getChildren().indexOf(button);
+                CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
 
-                    mainController.removeLog(deletedTextBox.getText());
-                    tasksViewer.getChildren().remove(deletedTextBox);
-                    removeTaskBar.getChildren().remove(indexLocation);
+                mainController.removeLog(deletedTextBox.getText());
+                tasksViewer.getChildren().remove(deletedTextBox);
+                removeTaskBar.getChildren().remove(indexLocation);
 
-                }
             });
 
             mainController.logTask(task);

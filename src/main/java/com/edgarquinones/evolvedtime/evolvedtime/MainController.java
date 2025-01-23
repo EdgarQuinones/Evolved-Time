@@ -4,28 +4,26 @@
 
 package com.edgarquinones.evolvedtime.evolvedtime;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class MainController {
 
@@ -34,6 +32,9 @@ public class MainController {
     public static boolean newFile;
 
     private Stage addTaskStage;
+
+    @FXML
+    private MenuBar menuBar;
 
     @FXML
     private VBox removeTaskBar;
@@ -71,7 +72,7 @@ public class MainController {
     }
 
     @FXML
-    void openAddTaskStage(ActionEvent event) {
+    void openAddTaskStage() {
         try {
             // If the "Add Task" window is already open, close it
             if (addTaskStage != null && addTaskStage.isShowing()) {
@@ -104,7 +105,6 @@ public class MainController {
         // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         dateText.setText(getDate());
-        dateText.setStyle("-fx-underline: true ;");
 
         csvContents = new ArrayList<>();
 
@@ -116,6 +116,7 @@ public class MainController {
     public void shutdown() {
         System.out.println("Program Closed");
         updateCSV();
+        Platform.exit();
     }
 
     private void updateCSV() {
@@ -150,19 +151,20 @@ public class MainController {
 
             while (fileScnr.hasNextLine()) {
                 String line = fileScnr.nextLine();
-                lineScnr = new Scanner(line);
-                lineScnr.useDelimiter(",");
 
-                CheckBox checkBox = new CheckBox(lineScnr.next());
-                double score = Double.parseDouble(lineScnr.next());
-                boolean isChecked = Boolean.parseBoolean(lineScnr.next());
+                // Allows commas inside quotes
+                String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-                if (isChecked) {
+                CheckBox checkBox = new CheckBox(tokens[0].replaceAll("\"", ""));
+                double score = Double.parseDouble(tokens[1]);
+                boolean isChecked = Boolean.parseBoolean(tokens[2]);
+
+                Task temp = new Task(checkBox, score, isChecked);
+
+                if (temp.isChecked()) {
                     checkBox.setSelected(true);
                     checkBox.setDisable(true);
                 }
-
-                Task temp = new Task(checkBox, score, isChecked);
 
                 csvContents.add(temp);
                 addFileTask(temp);
@@ -232,6 +234,7 @@ public class MainController {
 
         CheckBox checkBox = task.getCheckBox();
         checkBox.setStyle("-fx-font: 24 arial;");
+        checkBox.setWrapText(true);
 
         Button button = new Button("x");
 
@@ -261,33 +264,45 @@ public class MainController {
             removeTaskBar.getChildren().add(button);
         }
 
-        checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean isClicked) {
-                System.out.println("Checkbox licked");
+        checkBox.selectedProperty().addListener((observableValue, oldValue, isClicked) -> {
+            System.out.println("Checkbox licked");
 
-                checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
-                checkBox.setDisable(true);
+            checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
+            checkBox.setDisable(true);
 
 
-            }
         });
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Button Pressed");
+        button.setOnAction(actionEvent -> {
+            System.out.println("Button Pressed");
 
-                int indexLocation = removeTaskBar.getChildren().indexOf(button);
-                CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
+            int indexLocation = removeTaskBar.getChildren().indexOf(button);
+            CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
 
-                removeLog(deletedTextBox.getText());
-                tasksViewer.getChildren().remove(deletedTextBox);
-                removeTaskBar.getChildren().remove(indexLocation);
+            removeLog(deletedTextBox.getText());
+            tasksViewer.getChildren().remove(deletedTextBox);
+            removeTaskBar.getChildren().remove(indexLocation);
 
-            }
         });
 
+    }
+
+    @FXML
+    void openGithub(ActionEvent event) {
+        try {
+            Desktop.getDesktop().browse(new URL("https://github.com/EdgarQuinones/Evolved-Time").toURI());
+        } catch (IOException | URISyntaxException e) {
+            System.out.println("Error reaching website");
+        }
+    }
+
+    @FXML
+    void reportAnIssue(ActionEvent event) {
+        try {
+            Desktop.getDesktop().browse(new URL("https://github.com/EdgarQuinones/Evolved-Time/issues").toURI());
+        } catch (IOException | URISyntaxException e) {
+            System.out.println("Error reaching website");
+        }
     }
 
 }

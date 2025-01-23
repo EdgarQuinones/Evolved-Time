@@ -20,10 +20,7 @@ public class MainApplication extends Application {
         MainController mainController = fxmlLoader.getController();
         stage.setTitle("Tasks");
         stage.setScene(scene);
-        stage.setOnHidden(e -> {
-            mainController.shutdown();
-            Platform.exit();
-        });
+        stage.setOnHidden(e -> mainController.shutdown());
         stage.setResizable(false);
         stage.show();
     }
