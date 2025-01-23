@@ -1,4 +1,5 @@
 # Evolved Time - Task Management App
+A task management app that sorts your goals of the day based on a set of criteria. I believe this can help people be more productive.
 
 ## **3 factors to tasks**:
 
@@ -43,10 +44,9 @@ really is.
 
 ## The mathematical algorithm
 
-Each assignment will receive number. The **higher the number, the higher on the list**. If 2 tasks have the same number,
-the newer task will be under:
+Each assignment will receive a "score". The higher the number, the higher on the list. If 2 tasks have the same number, the older task will be preferred:
 
 ### (d * 1.5t) / p
+Difficulty 'd' is multiplied by time commitment 't', which is already multipled by 1.5, and all of that is divded by the personal interest 'p'.
 
-Its not some special formula, we are just mutiplying the values for difficulty *d* and time commitment *t*, and then
-dividing them by personal interest *p*.
+The goal with this formula is to have the most borning/busiest tasks completed first, and the most enyoable tasks completed at the end of the day. This is what has worked best for me and I hope it can help other people be more productive.
