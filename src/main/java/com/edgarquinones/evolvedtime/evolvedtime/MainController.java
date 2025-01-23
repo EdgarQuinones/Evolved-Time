@@ -355,7 +355,7 @@ public class MainController {
         }
 
         checkBox.selectedProperty().addListener((observableValue, oldValue, isClicked) -> {
-            System.out.println("Checkbox licked");
+//            System.out.println("Checkbox licked");
 
             checkBox.getStylesheets().addAll(Objects.requireNonNull(resource).toExternalForm());
             checkBox.setDisable(true);
@@ -364,7 +364,7 @@ public class MainController {
         });
 
         button.setOnAction(actionEvent -> {
-            System.out.println("Button Pressed");
+//            System.out.println("Button Pressed");
 
             int indexLocation = removeTaskBar.indexOf(button);
             CheckBox deletedTextBox = (CheckBox) ((FlowPane) tasksViewer.getChildren().get(indexLocation)).getChildren().get(0);
