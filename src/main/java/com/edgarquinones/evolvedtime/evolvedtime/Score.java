@@ -2,10 +2,10 @@ package com.edgarquinones.evolvedtime.evolvedtime;
 
 public class Score {
 
-    private double personalInterest;
-    private double timeCommitment;
-    private double difficulty;
-    private double finalScore;
+    private final double personalInterest;
+    private final double timeCommitment;
+    private final double difficulty;
+    private final double finalScore;
 
     public Score(double personalInterest, double timeCommitment, double difficulty) {
         this.personalInterest = personalInterest;
@@ -18,35 +18,19 @@ public class Score {
         return (difficulty * (1.5 * timeCommitment)) / personalInterest;
     }
 
+    @SuppressWarnings("unused")
     public double getPersonalInterest() {
         return personalInterest;
     }
 
-    public void setPersonalInterest(double personalInterest) {
-        this.personalInterest = personalInterest;
-    }
-
-    public double getTimeCommitment() {
-        return timeCommitment;
-    }
-
-    public void setTimeCommitment(double timeCommitment) {
-        this.timeCommitment = timeCommitment;
-    }
-
+    @SuppressWarnings("unused")
     public double getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(double difficulty) {
-        this.difficulty = difficulty;
-    }
-
+    @SuppressWarnings("unused")
     public double getFinalScore() {
         return finalScore;
     }
 
-    public void setFinalScore(double finalScore) {
-        this.finalScore = finalScore;
-    }
 }

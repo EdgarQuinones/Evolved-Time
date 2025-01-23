@@ -14,7 +14,8 @@
             </font>
         </Text>
         <TextField fx:id="nameOfTask" layoutX="109.0" layoutY="62.0" prefHeight="33.0" prefWidth="389.0"/>
-        <Slider fx:id="difficultySlider" blockIncrement="1.0" layoutX="113.0" layoutY="130.0" majorTickUnit="1.0" max="10.0"
+        <Slider fx:id="difficultySlider" blockIncrement="1.0" layoutX="113.0" layoutY="130.0" majorTickUnit="1.0"
+                max="10.0"
                 min="1.0" minorTickCount="0" prefHeight="40.0" prefWidth="389.0" showTickLabels="true"
                 showTickMarks="true" snapToTicks="true" value="5.0"/>
         <Text layoutX="29.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty"/>

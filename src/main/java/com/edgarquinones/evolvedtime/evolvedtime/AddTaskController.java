@@ -6,11 +6,13 @@ package com.edgarquinones.evolvedtime.evolvedtime;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -63,6 +65,7 @@ public class AddTaskController {
         checkBox.setText(nameOfTask.getText());
         checkBox.setStyle("-fx-font: 24 arial;");
         checkBox.setWrapText(true);
+        checkBox.setPrefWidth(MainController.CHECKBOX_WIDTH);
 
 
         Button button = new Button("x");
@@ -72,10 +75,16 @@ public class AddTaskController {
         Task task = new Task(checkBox, score, false);
         task.setScoreStats(new Score(personalInterestSlider.getValue(), timeCommitmentSlider.getValue(), difficultySlider.getValue()));
 
+        FlowPane flowPane = new FlowPane();
+        flowPane.setPrefHeight(MainController.FLOWPANE_HEIGHT);
+        flowPane.setAlignment(Pos.CENTER_LEFT);
+
+        flowPane.getChildren().addAll(checkBox, button);
+
         if (mainController != null) {
             VBox tasksViewer = mainController.getTasksViewer();
             ArrayList<Task> tasks = mainController.getTasks();
-            VBox removeTaskBar = mainController.getRemoveTaskBar();
+            ArrayList<Button> removeTaskBar = mainController.getRemoveTaskBar();
             URL resource = getClass().getResource("strikethrough.css");
 
             if (!tasks.isEmpty()) {
@@ -84,29 +93,29 @@ public class AddTaskController {
                     if (score > tasks.get(i).getScore()) {
                         try {
                             System.out.println("Size of tasks: " + tasksViewer.getChildren().size());
-                            tasksViewer.getChildren().add(i, checkBox);
-                            removeTaskBar.getChildren().add(i, button);
+                            tasksViewer.getChildren().add(i, flowPane);
+                            removeTaskBar.add(i, button);
                             tasks.add(i, task);
                             taskAdded = true;
                             break;
                         } catch (IndexOutOfBoundsException e) {
-                            tasksViewer.getChildren().add(checkBox);
+                            tasksViewer.getChildren().add(flowPane);
                             tasks.add(task);
-                            removeTaskBar.getChildren().add(button);
+                            removeTaskBar.add(button);
                             taskAdded = true;
                             break;
                         }
                     }
                 }
                 if (!taskAdded) {
-                    tasksViewer.getChildren().add(checkBox);
-                    removeTaskBar.getChildren().add(button);
+                    tasksViewer.getChildren().add(flowPane);
+                    removeTaskBar.add(button);
                     tasks.add(task);
                 }
             } else {
-                tasksViewer.getChildren().add(checkBox);
+                tasksViewer.getChildren().add(flowPane);
                 tasks.add(task);
-                removeTaskBar.getChildren().add(button);
+                removeTaskBar.add(button);
             }
 
             checkBox.selectedProperty().addListener((observableValue, oldValue, isClicked) -> {
@@ -122,12 +131,12 @@ public class AddTaskController {
             button.setOnAction(actionEvent -> {
                 System.out.println("Button Pressed");
 
-                int indexLocation = removeTaskBar.getChildren().indexOf(button);
+                int indexLocation = removeTaskBar.indexOf(button);
                 CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
 
                 mainController.removeLog(deletedTextBox.getText());
-                tasksViewer.getChildren().remove(deletedTextBox);
-                removeTaskBar.getChildren().remove(indexLocation);
+                tasksViewer.getChildren().remove(indexLocation);
+                removeTaskBar.remove(indexLocation);
 
             });
 

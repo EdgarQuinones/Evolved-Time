@@ -1,18 +1,14 @@
-/**
- * Sample Skeleton for 'Main.fxml' Controller Class
- */
-
 package com.edgarquinones.evolvedtime.evolvedtime;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioMenuItem;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -23,9 +19,17 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Scanner;
 
+@SuppressWarnings("CommentedOutCode") // For sort list method
 public class MainController {
+
+    public static final int FLOWPANE_HEIGHT = 0;
+    public static final int CHECKBOX_WIDTH = 515;
+
 
     public static String tasksFileName = "tasks.csv";
     public static ArrayList<Task> csvContents;
@@ -34,7 +38,7 @@ public class MainController {
     private Stage addTaskStage;
 
     @FXML
-    private VBox removeTaskBar;
+    private ArrayList<Button> removeTaskBar;
 
     @FXML
     private Text dateText;
@@ -66,6 +70,24 @@ public class MainController {
 
         // Return the formatted date with the suffix
         return formattedDate + suffix;
+    }
+
+    private static Task getTask(String line) {
+        String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+        CheckBox checkBox = new CheckBox(tokens[0].replaceAll("\"", ""));
+        checkBox.setPrefWidth(CHECKBOX_WIDTH);
+
+        double score = Double.parseDouble(tokens[1]);
+        boolean isChecked = Boolean.parseBoolean(tokens[2]);
+
+        Task temp = new Task(checkBox, score, isChecked);
+
+        if (temp.isChecked()) {
+            checkBox.setSelected(true);
+            checkBox.setDisable(true);
+        }
+        return temp;
     }
 
     @FXML
@@ -104,7 +126,7 @@ public class MainController {
         dateText.setText(getDate());
 
         csvContents = new ArrayList<>();
-
+        removeTaskBar = new ArrayList<>();
         tasks = new ArrayList<>();
         getTasksCSV();
 
@@ -149,18 +171,8 @@ public class MainController {
                 String line = fileScnr.nextLine();
 
                 // Allows commas inside quotes
-                String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                Task temp = getTask(line);
 
-                CheckBox checkBox = new CheckBox(tokens[0].replaceAll("\"", ""));
-                double score = Double.parseDouble(tokens[1]);
-                boolean isChecked = Boolean.parseBoolean(tokens[2]);
-
-                Task temp = new Task(checkBox, score, isChecked);
-
-                if (temp.isChecked()) {
-                    checkBox.setSelected(true);
-                    checkBox.setDisable(true);
-                }
 
                 csvContents.add(temp);
                 addFileTask(temp);
@@ -184,7 +196,7 @@ public class MainController {
         return tasks;
     }
 
-    public VBox getRemoveTaskBar() {
+    public ArrayList<Button> getRemoveTaskBar() {
         return removeTaskBar;
     }
 
@@ -230,33 +242,42 @@ public class MainController {
         CheckBox checkBox = task.getCheckBox();
         checkBox.setStyle("-fx-font: 24 arial;");
         checkBox.setWrapText(true);
+        checkBox.setPrefWidth(515);
 
         Button button = new Button("x");
 
         double score = task.getScore();
+
+        FlowPane flowPane = new FlowPane();
+        flowPane.setPrefHeight(FLOWPANE_HEIGHT);
+        flowPane.setAlignment(Pos.CENTER_LEFT);
+        flowPane.getChildren().addAll(checkBox, button);
 
         // TODO: Come up with method to prevent repeat code #2
         if (!tasks.isEmpty()) {
             for (int i = 0; i < tasks.size(); i++) {
 
                 if (score > tasks.get(i).getScore()) {
-                    tasksViewer.getChildren().add(i, checkBox);
-                    removeTaskBar.getChildren().add(i, button);
+                    //instead of tasksViewer adding checkbox,
+                    // it adds a FlowPane containing a checkbox and button
+
+                    tasksViewer.getChildren().add(i, flowPane);
+                    removeTaskBar.add(i, button);
                     tasks.add(i, task);
                     break;
                 }
             }
             try {
-                tasksViewer.getChildren().add(checkBox);
-                removeTaskBar.getChildren().add(button);
+                tasksViewer.getChildren().add(flowPane);
+                removeTaskBar.add(button);
                 tasks.add(task);
             } catch (IllegalArgumentException ignored) {
             }
 
         } else {
-            tasksViewer.getChildren().add(checkBox);
+            tasksViewer.getChildren().add(flowPane);
             tasks.add(task);
-            removeTaskBar.getChildren().add(button);
+            removeTaskBar.add(button);
         }
 
         checkBox.selectedProperty().addListener((observableValue, oldValue, isClicked) -> {
@@ -271,12 +292,12 @@ public class MainController {
         button.setOnAction(actionEvent -> {
             System.out.println("Button Pressed");
 
-            int indexLocation = removeTaskBar.getChildren().indexOf(button);
-            CheckBox deletedTextBox = (CheckBox) tasksViewer.getChildren().get(indexLocation);
+            int indexLocation = removeTaskBar.indexOf(button);
+            CheckBox deletedTextBox = (CheckBox) ((FlowPane) tasksViewer.getChildren().get(indexLocation)).getChildren().get(0);
 
             removeLog(deletedTextBox.getText());
-            tasksViewer.getChildren().remove(deletedTextBox);
-            removeTaskBar.getChildren().remove(indexLocation);
+            tasksViewer.getChildren().remove(indexLocation);
+            removeTaskBar.remove(indexLocation);
 
         });
 
@@ -302,52 +323,52 @@ public class MainController {
 
     @FXML
     void clearList() {
-        removeTaskBar.getChildren().clear();
+        removeTaskBar.clear();
         tasksViewer.getChildren().clear();
         tasks.clear();
         csvContents.clear();
     }
 
     // TODO: sort list
-    @FXML
-    void sortList(ActionEvent event) {
-        String sortOption = ((RadioMenuItem)event.getSource()).getText();
-
-        // Look at i index's <stat>, if bigger, go up
-
-        switch (sortOption) {
-            case "Personal Interest" :
-                System.out.println("personal button pressed");
-
-                for (int i = 0; i < tasks.size(); i++) {
-
-                    double currentPersonalInterest = tasks.get(i).getScoreStats().getPersonalInterest();
-                    for (int j = 0; i < tasks.size(); j++) {
-
-                        double tempPersonalInterest = tasks.get(j).getScoreStats().getPersonalInterest();
-
-                        if (currentPersonalInterest > tempPersonalInterest ) {
-                            return;
-                            // swap VBOX of buttons == removeTaskBar
-                            // swap VBOX of tasks == tasksViewer
-                            // swap tasks array += tasks
-                        }
-
-                    }
-
-                }
-
-            break;
-            case "Difficulty" :
-                System.out.println("Diff button pressed");
-                break;
-            case "Time Commitment" :
-                System.out.println("Time button pressed");
-                break;
-            default :
-                System.out.println("Default button pressed");
-        }
-
-    }
+//    @FXML
+//    void sortList(ActionEvent event) {
+//        String sortOption = ((RadioMenuItem)event.getSource()).getText();
+//
+//        // Look at i index's <stat>, if bigger, go up
+//
+//        switch (sortOption) {
+//            case "Personal Interest" :
+//                System.out.println("personal button pressed");
+//
+//                for (int i = 0; i < tasks.size(); i++) {
+//
+//                    double currentPersonalInterest = tasks.get(i).getScoreStats().getPersonalInterest();
+//                    for (int j = 0; i < tasks.size(); j++) {
+//
+//                        double tempPersonalInterest = tasks.get(j).getScoreStats().getPersonalInterest();
+//
+//                        if (currentPersonalInterest > tempPersonalInterest ) {
+//                            return;
+//                            // swap VBOX of buttons == removeTaskBar
+//                            // swap VBOX of tasks == tasksViewer
+//                            // swap tasks array += tasks
+//                        }
+//
+//                    }
+//
+//                }
+//
+//            break;
+//            case "Difficulty" :
+//                System.out.println("Diff button pressed");
+//                break;
+//            case "Time Commitment" :
+//                System.out.println("Time button pressed");
+//                break;
+//            default :
+//                System.out.println("Default button pressed");
+//        }
+//
+//    }
 
 }

@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainApplication extends Application {
     public static void main(String[] args) {
@@ -18,7 +19,7 @@ public class MainApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         MainController mainController = fxmlLoader.getController();
 
-        String css = this.getClass().getResource("mainApp.css").toExternalForm();
+        String css = Objects.requireNonNull(this.getClass().getResource("mainApp.css")).toExternalForm();
         scene.getStylesheets().add(css);
 
         stage.setTitle("Tasks");
