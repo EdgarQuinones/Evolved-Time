@@ -1,7 +1,7 @@
 # Evolved Time - Task Management App
 A task management app that sorts your goals of the day based on a set of criteria. I believe this can help people be more productive.
 
-## **3 factors to tasks**:
+## **3 factors to a task**:
 
 1. Difficultly: How hard is the actual task
 2. Time Commitment: How long will this task task
