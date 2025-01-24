@@ -61,10 +61,10 @@ productive.
 - Maven
 - IntelliJ
 ## Design vs. Final Product
-![](Images\design.png)
-![](Images\finalproduct1.png)
-![](Images\finalproduct2.png)
-![](Images\finalproduct3.png)
+![1](Images\design.png)
+![1](Images\finalproduct1.png)
+![1](Images\finalproduct2.png)
+![1](Images\finalproduct3.png)
 ## Opinion on Design vs. Final Product
 I think I actually did a pretty decent job at the final product in regards to the design. For starters, It does its job at adding tasks, and sorting them based on a set of criteria. Along with that, I made sure to add an extra menu giving more information to the user. I also managed to add a menu bar to give a cleaner look and give the user more options.
 
