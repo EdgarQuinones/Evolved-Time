@@ -58,11 +58,6 @@ productive.
 ## How to Use
 Now, unfortunely I cannot manage to get this to run as a sole Jar file, so the only way to actually use this application is by **downloading IntelliJ** and running it from there. I know this is a very inconvient way to try this program, but I will find a solution.
 
-## Tools Learned
-- JavaFX
-- Scene Builder
-- Maven
-- IntelliJ
 ## Design vs. Final Product
 ![](https://github.com/EdgarQuinones/Evolved-Time/blob/master/Images/design.png)
 ![](https://github.com/EdgarQuinones/Evolved-Time/blob/master/Images/finalproduct1.png)
@@ -72,6 +67,12 @@ Now, unfortunely I cannot manage to get this to run as a sole Jar file, so the o
 I think I actually did a pretty decent job at the final product in regards to the design. For starters, It does its job at adding tasks, and sorting them based on a set of criteria. Along with that, I made sure to add an extra menu giving more information to the user. I also managed to add a menu bar to give a cleaner look and give the user more options.
 
 In future iterations, I hope to implement a database for more reliable persistence, add a calendar, and a much more colorful UI.  
+
+## Tools Learned
+- JavaFX
+- Scene Builder
+- Maven
+- IntelliJ
 
 ## Overall Lessons learned
 I found this a fun project, I designed something, and then made it. To be honest this is actually really cool, I came up with something from my brain, and then created it in code. Sure it took a lot of research, youtube, hitting my head, and a *tad* of chatgpt, but overall I am proud for what I did. 
