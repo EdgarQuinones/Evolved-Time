@@ -54,3 +54,29 @@ Difficulty 'd' is multiplied by time commitment 't', which is already multipled 
 The goal with this formula is to have the most boring/busiest tasks completed first, and the most enjoyable tasks
 completed at the end of the day. This is what has worked best for me and I hope it can help other people be more
 productive.
+
+## Tools Learned
+- JavaFX
+- Scene Builder
+- Maven
+- IntelliJ
+## Design vs. Final Product
+![](Images\design.png)
+![](Images\finalproduct1.png)
+![](Images\finalproduct2.png)
+![](Images\finalproduct3.png)
+## Opinion on Design vs. Final Product
+I think I actually did a pretty decent job at the final product in regards to the design. For starters, It does its job at adding tasks, and sorting them based on a set of criteria. Along with that, I made sure to add an extra menu giving more information to the user. I also managed to add a menu bar to give a cleaner look and give the user more options.
+
+In future iterations, I hope to implement a database for more reliable persistence, add a calendar, and a much more colorful UI.  
+
+## Overall Lessons learned
+I found this a fun project, I designed something, and then made it. To be honest this is actually really cool, I came up with something from my brain, and then created it in code. Sure it took a lot of research, youtube, hitting my head, and a *tad* of chatgpt, but overall I am proud for what I did. 
+
+This project took about **4 days straight, with about 6 hours a day**, totaling to around 24 hours of total work, more or less. I did not realize how quick I got this project done. I thought this would take weeks, I was mentally prepared to take longer, but I actually got it done quicker than I thought. 
+
+Now, with all that being said, if I am going to be honest, I think I could have slowed down a bit. I tend to say my biggest weakness is patience, and this was no different. Don't get me wrong, this project was mostly me combining resources from everywhere, but I feel I could have slowed down, and maybe come up with some more ideas of my own. 
+
+I am proud for coming up with a design, and following up on it, but I think I am capable of more. If I spend more time designing, and build this project at a slower pace, I think I can increase the quality of the project, while also possibly making something more satisfying. I will try to use **zero AI tools** to assist. While I didn't use a lot, I definitely used more than I would have liked.
+
+Nonetheless, I am proud of the project I made, and am looking forward for the many more projects to come.
