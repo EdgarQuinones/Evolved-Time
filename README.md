@@ -75,7 +75,7 @@ In future iterations, I hope to implement a database for more reliable persisten
 - IntelliJ
 
 ## Overall Lessons learned
-I found this a fun project, I designed something, and then made it. To be honest this is actually really cool, I came up with something from my brain, and then created it in code. Sure it took a lot of research, youtube, hitting my head, and a *tad* of chatgpt, but overall I am proud for what I did. 
+I found this a fun project, I designed something, and then made it. To be honest this is actually really cool, I came up with something from my brain, and then created it in code, this is the first programming project I have made based on my ideas, and not a tutorial. Sure it took a lot of research, youtube, hitting my head, and a *tad* of chatgpt, but overall I am proud for what I did. 
 
 This project took about **4 days straight, with about 6 hours a day**, totaling to around 24 hours of total work, more or less. I did not realize how quick I got this project done. I thought this would take weeks, I was mentally prepared to take longer, but I actually got it done quicker than I thought. 
 
