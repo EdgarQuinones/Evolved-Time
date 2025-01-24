@@ -55,8 +55,8 @@ The goal with this formula is to have the most boring/busiest tasks completed fi
 completed at the end of the day. This is what has worked best for me and I hope it can help other people be more
 productive.
 
-## How to use
-Now, unfortunely I cannot manage to get this to run as a sole Jar file, so the only way to actually use this application is by **downloading IntelliJ** and running it fron there. I know this is a very inconvient way to try this program, but I will find a solution.
+## How to Use
+Now, unfortunely I cannot manage to get this to run as a sole Jar file, so the only way to actually use this application is by **downloading IntelliJ** and running it from there. I know this is a very inconvient way to try this program, but I will find a solution.
 
 ## Tools Learned
 - JavaFX
